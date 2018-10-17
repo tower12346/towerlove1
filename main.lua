@@ -3,8 +3,8 @@ function love.load()
 	world = bump.newWorld()
 
 	player = {
-		x = 10,
-		y = 10,
+		x = 0,
+		y = 500,
 		yv = 0,
 		yt = 0,
 		w = 10,
@@ -22,9 +22,9 @@ function love.load()
 		w = 500,
 		h = 1
 	}
-	world:add(player, player.w, player.h, player.x, player.y)
-	world:add(platform1, platform1.w, platform1.h, platform1.x, platform1.y)
-	world:add(floor, floor.w, floor.h, floor.x, floor.y)
+	world:add(player, player.x, player.y, player.w, player.h)
+	world:add(platform1, platform1.x, platform1.y,  platform1.w, platform1.h)
+	--world:add(floor, floor.x, floor.y, floor.w, floor.h)
 end
 
 function love.update(dt)
@@ -37,7 +37,7 @@ function love.update(dt)
 	end
 
 	if love.keyboard.isDown("up") then
-		player.yv = 1.5
+		player.yv = 1
 	end
 	if player.yv > 0 then
 		player.yt = player.yt + 1
