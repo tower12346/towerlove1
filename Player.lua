@@ -34,13 +34,17 @@ function Player:update(dt, bullets)
 
 	self.x, self.y = actualX, actualY
 
-	if love.keyboard.isDown("space") then
-		if love.keyboard.isDown("left") then
-			b = Bullet(self.x-3, self.y+(self.h/2), -2, world, bullets)
-		else
-			b = Bullet(self.x+self.w, self.y+(self.h/2), 2, world, bullets)
-		end
-		table.insert(bullets, b)
+	if love.keyboard.isDown("a") then
+		table.insert(bullets, Bullet(self.x-3, self.y+(self.h/2), -2, 0, world, bullets))
+	end
+	if love.keyboard.isDown('d') then
+		table.insert(bullets, Bullet(self.x+self.w, self.y+(self.h/2), 2, 0, world, bullets))
+	end
+	if love.keyboard.isDown('w') then
+		table.insert(bullets, Bullet(self.x+self.w/2, self.y - self.h, 0, -2, world, bullets))
+	end
+	if love.keyboard.isDown('s') and love.keyboard.isDown('v') then
+		table.insert(bullets, Bullet(self.x+self.w/2, self.y + self.h, 0, -2, world, bullets))
 	end
 end
 
