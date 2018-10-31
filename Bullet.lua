@@ -12,7 +12,7 @@ function Bullet:new(x1, y1, xv1, world, bullets)
 end
 
 function Bullet:update(dt)
-	goalX = self.x + self.xv * 10 * dt
+	goalX = self.x + self.xv * 100 * dt
 	goalY = self.y
 	self.t = self.t - dt
 	local actualX, actualY, cols, len = world:move(self, goalX, goalY)

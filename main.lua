@@ -13,7 +13,8 @@ function love.load()
 		Platform(150,350,30,30,true, world),
 		Platform(200, 300, 30, 30, true, world),
 		Platform(250, 300, 30, 30, true, world),
-		Platform(1, 510, 600, 10, true, world)
+		Platform(400, 330, 30, 30, true, world),
+		Platform(1, 510, 600, 20, true, world)
 	}
 
 	bullets = {}
