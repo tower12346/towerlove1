@@ -48,8 +48,12 @@ function Player:update(dt)
 	if love.keyboard.isDown('w') then
 		table.insert(bullets, Bullet(self.x+self.w/2, self.y - self.h, 0, -2, world, bullets))
 	end
-	if love.keyboard.isDown('s') and love.keyboard.isDown('v') then
-		table.insert(bullets, Bullet(self.x+self.w/2, self.y + self.h, 0, -2, world, bullets))
+	if love.keyboard.isDown('s') then
+		if love.keyboard.isDown('v') then
+			table.insert(bullets, Bullet(self.x+self.w/2, self.y + self.h, 0, -2, world, bullets))
+		else
+			table.insert(bullets, Bullet(self.x+self.w/2, self.y + self.h, 0, 2, world, bullets))
+		end
 	end
 
 	if self.hp <= 0 then
@@ -59,6 +63,6 @@ end
 
 function Player:draw()
 	love.graphics.setColor(255, 255, 255)
-	love.graphics.print(self.hp, 400, 300)
+	love.graphics.print('Hit Points' .. self.hp, 400, 300)
 	love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
 end
