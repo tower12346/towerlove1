@@ -1,16 +1,18 @@
 Player = Object:extend()
 
-function Player:new(x1, y1, world)
+function Player:new(x1, y1, world, bullets)
 	self.x = x1
 	self.y = y1
 	self.yv = 0
 	self.yt = 0
 	self.w = 10
 	self.h = 10
+	self.hp = 100
+	self.isPlayer = true
 	world:add(self, self.x,self.y, self.w, self.h)
 end
 
-function Player:update(dt, bullets)
+function Player:update(dt)
 	local goalX = self.x 
 	local goalY = self.y
 	if love.keyboard.isDown("right") then
@@ -30,6 +32,9 @@ function Player:update(dt, bullets)
 	    	self.yt = 0
 			self.yv = 0
 		end
+		if cols[i].other.isEnemy then
+	    	self.hp = self.hp - 1
+		end
 	end
 
 	self.x, self.y = actualX, actualY
@@ -46,9 +51,14 @@ function Player:update(dt, bullets)
 	if love.keyboard.isDown('s') and love.keyboard.isDown('v') then
 		table.insert(bullets, Bullet(self.x+self.w/2, self.y + self.h, 0, -2, world, bullets))
 	end
+
+	if self.hp <= 0 then
+		return true
+	end
 end
 
 function Player:draw()
 	love.graphics.setColor(255, 255, 255)
+	love.graphics.print(self.hp, 400, 300)
 	love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
 end
