@@ -31,6 +31,11 @@ function love.load()
 end
 
 function love.update(dt)
+
+	if love.keyboard.isDown("0") then
+		love.load()
+	end
+
 	if player ~= nil then
 		lasttx = player.tx
 	end

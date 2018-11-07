@@ -22,11 +22,11 @@ function Player:update(dt)
 	elseif love.keyboard.isDown("left") then
 		goalX = self.x - 100 * dt
 	end
-
 	if love.keyboard.isDown("up") then
 		self.yv = 2
 	end
 	goalY = self.y - self.yv*self.yt + 0.1*self.yt^2
+
 	local actualX, actualY, cols, len = worlds[self.tx]:move(self, goalX, goalY)
 	self.yt = self.yt + 1
 	for i,v in ipairs (cols) do	
@@ -54,19 +54,19 @@ function Player:update(dt)
 	end
 
 	if love.keyboard.isDown("a") then
-		table.insert(tilemap2d[self.tx], Bullet(self.x-3, self.y+(self.h/2), -2, 0, worlds[self.tx]))
+		table.insert(tilemap2d[self.tx], Bullet(self.x-3, self.y+(self.h/2), -2, 0))
 	end
 	if love.keyboard.isDown('d') then
-		table.insert(tilemap2d[self.tx], Bullet(self.x+self.w, self.y+(self.h/2), 2, 0, worlds[self.tx]))
+		table.insert(tilemap2d[self.tx], Bullet(self.x+self.w, self.y+(self.h/2), 2, 0))
 	end
 	if love.keyboard.isDown('w') then
-		table.insert(tilemap2d[self.tx], Bullet(self.x+self.w/2, self.y - self.h, 0, -2, worlds[self.tx]))
+		table.insert(tilemap2d[self.tx], Bullet(self.x+self.w/2, self.y - self.h, 0, -2))
 	end
 	if love.keyboard.isDown('s') then
 		if love.keyboard.isDown('v') then
-			table.insert(tilemap2d[self.tx], Bullet(self.x+self.w/2, self.y + self.h, 0, -2, worlds[self.tx]))
+			table.insert(tilemap2d[self.tx], Bullet(self.x+self.w/2, self.y + self.h, 0, -2))
 		else
-			table.insert(tilemap2d[self.tx], Bullet(self.x+self.w/2, self.y + self.h, 0, 2, worlds[self.tx]))
+			table.insert(tilemap2d[self.tx], Bullet(self.x+self.w/2, self.y + self.h, 0, 2))
 		end
 	end
 
