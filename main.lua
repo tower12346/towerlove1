@@ -5,48 +5,55 @@ function love.load()
 	require "player"
 	require "bullet"
 	require "Enemy"
-	world = bump.newWorld()
 
-	bullets = {}
-	player = Player(1, 500, world, bullets)
-	enemies = {
-		Enemy(300, 500, world)
+	worlds = {
+		bump.newWorld(),
+		bump.newWorld()
 	}
-	platforms = {
-		Platform(50,450,30,30,true, world), 
-		Platform(100,400,30,30,true, world), 
-		Platform(150,350,30,30,true, world),
-		Platform(200, 300, 30, 30, true, world),
-		Platform(250, 300, 30, 30, true, world),
-		Platform(400, 330, 30, 30, true, world),
-		Platform(1, 510, 600, 20, true, world)
+	tilemap2d = {
+		{
+			Platform(50,450,30,30, 1), 
+			Platform(100,400,30,30, 1), 
+			Platform(150,350,30,30, 1),
+			Platform(200, 300, 30, 30, 1),
+			Platform(250, 300, 30, 30, 1),
+			Platform(400, 330, 30, 30, 1),
+			Platform(1, 510, 800, 20, 1)
+		},
+		{
+			Platform(50,450,30,30, 2), 
+			Platform(1, 510, 800, 20, 2)
+		}
 	}
+	player = Player(1, 500)
 	killCount = 0
+	lasttx = 1
 end
 
 function love.update(dt)
-	if math.random() > 0.99 then
-    	table.insert(enemies, Enemy(math.random(100, 300), 500, world))
+	if player ~= nil then
+		lasttx = player.tx
+	end
+
+	if player ~= nil and math.random() > 0.99 then
+    	table.insert(tilemap2d[lasttx], Enemy(math.random(100, 300), 500))
     end
 
 	if player~=nil and player:update(dt) then
 		player = nil
 	end
 	
-	for i, v in ipairs (enemies) do
-    	if enemies[i]:update(dt) then
-    		world:remove(enemies[i])
-			table.remove(enemies, i)
-			killCount = killCount + 1
-		end
-    end
-
-	for i, v in ipairs (bullets) do
-    	if bullets[i]:update(dt) then
-    		world:remove(bullets[i])
-			table.remove(bullets, i)
-		end
-    end
+	for ia, v in ipairs (tilemap2d) do
+		for i, v in ipairs (tilemap2d[ia]) do
+	    	if tilemap2d[ia][i]:update(dt) then
+	    		if tilemap2d[ia][i].isEnemy then
+	    			killCount = killCount + 1
+	    		end
+	    		worlds[ia]:remove(tilemap2d[ia][i])
+				table.remove(tilemap2d[ia], i)
+			end
+	    end
+	end
 end
 
 function love.draw()
@@ -60,15 +67,7 @@ function love.draw()
     	love.graphics.print('Game Over', 400, 300)
     end
 
-    for i, v in ipairs (platforms) do
-    	platforms[i]:draw()
-    end
-
-    for i, v in ipairs (bullets) do
-    	bullets[i]:draw()
-    end
-
-    for i, v in ipairs (enemies) do
-    	enemies[i]:draw()
+    for i, v in ipairs (tilemap2d[lasttx]) do
+    	tilemap2d[lasttx][i]:draw()
     end
 end

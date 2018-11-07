@@ -1,6 +1,6 @@
 Bullet = Object:extend()
 
-function Bullet:new(x1, y1, xv1, yv1, world, bullets)
+function Bullet:new(x1, y1, xv1, yv1)
 	self.x = x1
 	self.y = y1
 	self.xv = xv1
@@ -10,7 +10,8 @@ function Bullet:new(x1, y1, xv1, yv1, world, bullets)
 	self.h = 3
 	self.isFloor = true
 	self.isBullet = true
-	world:add(self, self.x,self.y, self.w, self.h)
+	self.tx = player.tx
+	worlds[self.tx]:add(self, self.x,self.y, self.w, self.h)
 end
 
 function Bullet:update(dt)
@@ -26,7 +27,7 @@ function Bullet:update(dt)
 		end	
 	end
 
-	local actualX, actualY, cols, len = world:move(self, goalX, goalY, self.filter)
+	local actualX, actualY, cols, len = worlds[self.tx]:move(self, goalX, goalY, self.filter)
 	for i,v in ipairs (cols) do
 		if cols[i].other.isEnemy then
 			return true
