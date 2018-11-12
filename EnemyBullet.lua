@@ -11,6 +11,7 @@ function EnemyBullet:new(x1, y1, xv1, yv1, tx1)
 	self.isFloor = true
 	self.isEnemy = true
 	self.tx = tx1
+	self.delete = false
 	worlds[self.tx]:add(self, self.x,self.y, self.w, self.h)
 end
 
@@ -34,6 +35,7 @@ function EnemyBullet:update(dt)
 			return true
 		end
 		if cols[i].other.isBullet then
+			cols[i].other.delete = true
 			return true
 		end
 	end
@@ -41,6 +43,7 @@ function EnemyBullet:update(dt)
 	if (self.t<0) then
 		return true
 	end
+	return self.delete
 end
 
 function EnemyBullet:draw()

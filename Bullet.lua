@@ -39,6 +39,7 @@ function Bullet:update(dt)
 	if (self.t<0) then
 		return true
 	end
+	return self.delete
 end
 
 function Bullet:draw()
