@@ -29,12 +29,7 @@ function Bullet:update(dt)
 	end
 
 	local actualX, actualY, cols, len = worlds[self.tx]:move(self, goalX, goalY, self.filter)
-	for i,v in ipairs (cols) do
-		if cols[i].other.isEnemy then
-			cols[i].other.delete = true
-			return true
-		end
-	end
+	
 	self.x, self.y = actualX, actualY
 	if (self.t<0) then
 		return true

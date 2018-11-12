@@ -31,7 +31,7 @@ function EnemyBullet:update(dt)
 	local actualX, actualY, cols, len = worlds[self.tx]:move(self, goalX, goalY, self.filter)
 	for i,v in ipairs (cols) do
 		if cols[i].other.isPlayer then
-			cols[i].other:ouch()
+			cols[i].other:ouch(20)
 			return true
 		end
 		if cols[i].other.isBullet then

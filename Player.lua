@@ -84,8 +84,12 @@ function Player:update(dt)
 	end
 end
 
-function Player:ouch()
-	self.hp = self.hp - 1
+function Player:ouch(wound)
+	if wound==nil then
+		self.hp = self.hp - 1
+	else
+		self.hp = self.hp - wound
+	end
 end
 
 function Player:draw()

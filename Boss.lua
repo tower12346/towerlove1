@@ -8,7 +8,7 @@ function Boss:new(x1, y1, tx1)
 	self.w = 100
 	self.h = 100
 	self.tx = tx1
-	self.hp = 100
+	self.hp = 10000
 	self.isEnemy = true
 	worlds[self.tx]:add(self, self.x,self.y, self.w, self.h)
 end
@@ -23,9 +23,15 @@ function Boss:update(dt)
 	end
 
 	if math.random() > 0.99 then
+		table.insert(tilemap2d[self.tx], EnemyBullet(self.x-10, self.y, -2, 0, self.tx))
 		table.insert(tilemap2d[self.tx], EnemyBullet(self.x-10, self.y+(self.h/2), -2, 0, self.tx))
+		table.insert(tilemap2d[self.tx], EnemyBullet(self.x-10, self.y+(self.h-10), -2, 0, self.tx))
+		table.insert(tilemap2d[self.tx], EnemyBullet(self.x+self.w, self.y, 2, 0, self.tx))
 		table.insert(tilemap2d[self.tx], EnemyBullet(self.x+self.w, self.y+(self.h/2), 2, 0, self.tx))
+		table.insert(tilemap2d[self.tx], EnemyBullet(self.x+self.w, self.y+(self.h-10), 2, 0, self.tx))
+		table.insert(tilemap2d[self.tx], EnemyBullet(self.x+self.w, self.y - self.h, 0, -2, self.tx))
 		table.insert(tilemap2d[self.tx], EnemyBullet(self.x+self.w/2, self.y - self.h, 0, -2, self.tx))
+		table.insert(tilemap2d[self.tx], EnemyBullet(self.x, self.y - self.h, 0, -2, self.tx))
 	end
 end
 

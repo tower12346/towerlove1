@@ -33,7 +33,7 @@ function love.load()
 			Platform(1, 510, 800, 20, 2)
 		},
 		{
-			Boss(300, 400, 3),
+			Boss(400, 400, 3),
 			Platform(1, 510, 800, 20, 3)
 		}
 	}
@@ -63,7 +63,7 @@ function love.update(dt)
 	for ia, v in ipairs (tilemap2d) do
 		for i, v in ipairs (tilemap2d[ia]) do
 	    	if tilemap2d[ia][i]:update(dt) then
-	    		if tilemap2d[ia][i].isEnemy then
+	    		if tilemap2d[ia][i].isEnemy and tilemap2d[ia][i].isBullet==false then
 	    			killCount = killCount + 1
 	    		end
 	    		worlds[ia]:remove(tilemap2d[ia][i])

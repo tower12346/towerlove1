@@ -16,14 +16,17 @@ function Collectible:update(dt)
 end
 
 function Collectible:bestow(powers)
-	for i, v in ipairs (self.bpowers) do
-		powers[i] = self.bpowers[i]
+	newpowers = powers
+	for i, v in pairs (newpowers) do
+		if self.bpowers[i]~=nil then
+			newpowers[i] = self.bpowers[i]
+		end
 	end
 	self.delete = true
-	return powers
+	return newpowers
 end
 
 function Collectible:draw()
 	love.graphics.setColor(0, 0, 255)
-	love.graphics.circle("fill", self.x, self.y, self.radius)
+	love.graphics.circle("fill", self.x+self.radius/2, self.y+self.radius/2, self.radius)
 end
