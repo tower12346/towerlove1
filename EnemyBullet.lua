@@ -1,21 +1,20 @@
-Bullet = Object:extend()
+EnemyBullet = Bullet:extend()
 
-function Bullet:new(x1, y1, xv1, yv1)
+function EnemyBullet:new(x1, y1, xv1, yv1, tx1)
 	self.x = x1
 	self.y = y1
 	self.xv = xv1
 	self.yv = yv1
 	self.t = 3
-	self.w = 3
-	self.h = 3
+	self.w = 10
+	self.h = 10
 	self.isFloor = true
-	self.isBullet = true
-	self.tx = player.tx
-	self.delete = false
+	self.isEnemy = true
+	self.tx = tx1
 	worlds[self.tx]:add(self, self.x,self.y, self.w, self.h)
 end
 
-function Bullet:update(dt)
+function EnemyBullet:update(dt)
 	goalX = self.x + self.xv * 500 * dt
 	goalY = self.y + self.yv * 500 * dt
 	self.t = self.t - dt
@@ -30,8 +29,11 @@ function Bullet:update(dt)
 
 	local actualX, actualY, cols, len = worlds[self.tx]:move(self, goalX, goalY, self.filter)
 	for i,v in ipairs (cols) do
-		if cols[i].other.isEnemy then
-			cols[i].other.delete = true
+		if cols[i].other.isPlayer then
+			cols[i].other:ouch()
+			return true
+		end
+		if cols[i].other.isBullet then
 			return true
 		end
 	end
@@ -41,7 +43,6 @@ function Bullet:update(dt)
 	end
 end
 
-function Bullet:draw()
-	love.graphics.setColor(255, 0, 0)
-	love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
+function EnemyBullet:draw()
+	EnemyBullet.super.draw(self)
 end

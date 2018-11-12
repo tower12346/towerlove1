@@ -5,8 +5,12 @@ function love.load()
 	require "player"
 	require "bullet"
 	require "Enemy"
+	require "Boss"
+	require "EnemyBullet"
+	require "Collectible"
 
 	worlds = {
+		bump.newWorld(),
 		bump.newWorld(),
 		bump.newWorld()
 	}
@@ -15,14 +19,22 @@ function love.load()
 			Platform(50,450,30,30, 1), 
 			Platform(100,400,30,30, 1), 
 			Platform(150,350,30,30, 1),
+			Collectible(150, 340, {["canShootUp"] = true}, 1),
 			Platform(200, 300, 30, 30, 1),
+			Collectible(200, 290, {["canShootDown"] = true}, 1),
 			Platform(250, 300, 30, 30, 1),
 			Platform(400, 330, 30, 30, 1),
 			Platform(1, 510, 800, 20, 1)
 		},
 		{
 			Platform(50,450,30,30, 2), 
+			Platform(400,410,40,40, 2), 
+			Platform(120,400,50,50, 2), 
 			Platform(1, 510, 800, 20, 2)
+		},
+		{
+			Boss(300, 400, 3),
+			Platform(1, 510, 800, 20, 3)
 		}
 	}
 	player = Player(1, 500)
@@ -62,13 +74,13 @@ function love.update(dt)
 end
 
 function love.draw()
-	love.graphics.setColor(1, 0, 0)
+	love.graphics.setColor(255, 0, 0)
 	love.graphics.print('Kills:' .. killCount, 400, 310)
 
     if player~=nil then
     	player:draw()
     else
-    	love.graphics.setColor(1, 0, 0)
+    	love.graphics.setColor(255, 0, 0)
     	love.graphics.print('Game Over', 400, 300)
     end
 

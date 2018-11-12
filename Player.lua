@@ -9,6 +9,12 @@ function Player:new(x1, y1)
 	self.h = 10
 	self.hp = 100
 	self.tx = 1
+	self.powers = {
+		["canShootLeft"] = true,
+		["canShootRight"] = true,
+		["canShootUp"] = false,
+		["canShootDown"] = false
+	}
 	--self.ty = 0
 	self.isPlayer = true
 	worlds[self.tx]:add(self, self.x,self.y, self.w, self.h)
@@ -37,6 +43,9 @@ function Player:update(dt)
 		if cols[i].other.isEnemy then
 	    	self.hp = self.hp - 1
 		end
+		if cols[i].other.isCollectible then
+			self.powers = cols[i].other:bestow(self.powers)
+		end
 	end
 
 	self.x, self.y = actualX, actualY
@@ -53,16 +62,16 @@ function Player:update(dt)
 		worlds[self.tx]:add(self, self.x,self.y, self.w, self.h)
 	end
 
-	if love.keyboard.isDown("a") then
+	if love.keyboard.isDown("a") and self.powers.canShootLeft then
 		table.insert(tilemap2d[self.tx], Bullet(self.x-3, self.y+(self.h/2), -2, 0))
 	end
-	if love.keyboard.isDown('d') then
+	if love.keyboard.isDown('d') and self.powers.canShootRight then
 		table.insert(tilemap2d[self.tx], Bullet(self.x+self.w, self.y+(self.h/2), 2, 0))
 	end
-	if love.keyboard.isDown('w') then
+	if love.keyboard.isDown('w') and self.powers.canShootUp then
 		table.insert(tilemap2d[self.tx], Bullet(self.x+self.w/2, self.y - self.h, 0, -2))
 	end
-	if love.keyboard.isDown('s') then
+	if love.keyboard.isDown('s') and self.powers.canShootDown then
 		if love.keyboard.isDown('v') then
 			table.insert(tilemap2d[self.tx], Bullet(self.x+self.w/2, self.y + self.h, 0, -2))
 		else
@@ -73,6 +82,10 @@ function Player:update(dt)
 	if self.hp <= 0 then
 		return true
 	end
+end
+
+function Player:ouch()
+	self.hp = self.hp - 1
 end
 
 function Player:draw()

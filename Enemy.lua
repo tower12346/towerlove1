@@ -9,6 +9,7 @@ function Enemy:new(x1, y1)
 	self.h = 10
 	self.tx = player.tx
 	self.isEnemy = true
+	self.delete = false
 	worlds[self.tx]:add(self, self.x,self.y, self.w, self.h)
 end
 
@@ -34,11 +35,13 @@ function Enemy:update(dt)
 			self.yv = 0
 		end
 		if cols[i].other.isBullet then
+			cols[i].other.delete = true
 	    	return true
 		end
 	end
 
 	self.x, self.y = actualX, actualY
+	return self.delete
 end
 
 function Enemy:draw()
