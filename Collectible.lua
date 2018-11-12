@@ -16,14 +16,13 @@ function Collectible:update(dt)
 end
 
 function Collectible:bestow(powers)
-	newpowers = powers
-	for i, v in pairs (newpowers) do
+	for i, v in pairs (powers) do
 		if self.bpowers[i]~=nil then
-			newpowers[i] = self.bpowers[i]
+			powers[i] = self.bpowers[i]
 		end
 	end
 	self.delete = true
-	return newpowers
+	return powers
 end
 
 function Collectible:draw()
