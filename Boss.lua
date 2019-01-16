@@ -3,12 +3,14 @@ Boss = Enemy:extend()
 function Boss:new(x1, y1, tx1)
 	self.x = x1
 	self.y = y1
+	self.x1 = x1
+	self.y1 = y1
 	self.yv = 0
 	self.yt = 0
 	self.w = 100
 	self.h = 100
 	self.tx = tx1
-	self.hp = 10000
+	self.hp = 1000
 	self.isEnemy = true
 	worlds[self.tx]:add(self, self.x,self.y, self.w, self.h)
 end
@@ -16,6 +18,11 @@ end
 function Boss:update(dt)
 	if Boss.super.update(self, dt) then
 		self.hp = self.hp - 1
+	end
+
+	if self.y>800 then
+		self.y = self.y1
+		worlds[self.tx]:update(self, self.x,self.y, self.w, self.h)
 	end
 
 	if self.hp <= 0 then
@@ -37,6 +44,6 @@ end
 
 function Boss:draw()
 	love.graphics.setColor(255, 255, 255)
-	love.graphics.print('Boss HP:' .. self.hp, 400, 320)
+	love.graphics.print('Boss HP:' .. self.hp, 700, 20)
 	Boss.super.draw(self)
 end

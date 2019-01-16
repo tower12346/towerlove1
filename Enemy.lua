@@ -27,7 +27,14 @@ function Enemy:update(dt)
 		self.yv = 2
 	end
 	goalY = self.y - self.yv*self.yt + 0.1*self.yt^2
-	local actualX, actualY, cols, len = worlds[self.tx]:move(self, goalX, goalY)
+	local playerFilter = function(item, other)
+		if other.isBullet then
+			return 'cross'
+		else
+			return 'touch'
+		end
+	end
+	local actualX, actualY, cols, len = worlds[self.tx]:move(self, goalX, goalY, playerFilter)
 	self.yt = self.yt + 1
 	for i,v in ipairs (cols) do	
 		if cols[i].other.isFloor and cols[i].normal.y == -1 then
@@ -35,7 +42,7 @@ function Enemy:update(dt)
 			self.yv = 0
 		end
 		if cols[i].other.isBullet then
-			cols[i].other.delete = true
+			--cols[i].other.delete = true
 	    	return true
 		end
 	end

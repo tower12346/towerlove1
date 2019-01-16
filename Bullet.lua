@@ -23,7 +23,9 @@ function Bullet:update(dt)
 	self.filter = function(item, other)
 		if other.isBullet then 
   			return 'touch'
-  		else 
+  		elseif other.isEnemy then
+  			return 'cross'
+  		else
   			return 'slide'
 		end	
 	end

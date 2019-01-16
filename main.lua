@@ -24,17 +24,17 @@ function love.load()
 			Collectible(200, 290, {["canShootDown"] = true}, 1),
 			Platform(250, 300, 30, 30, 1),
 			Platform(400, 330, 30, 30, 1),
-			Platform(1, 510, 800, 20, 1)
+			Platform(-20, 510, 840, 20, 1)
 		},
 		{
 			Platform(50,450,30,30, 2), 
 			Platform(400,410,40,40, 2), 
 			Platform(120,400,50,50, 2), 
-			Platform(1, 510, 800, 20, 2)
+			Platform(-20, 510, 840, 20, 2)
 		},
 		{
 			Boss(400, 400, 3),
-			Platform(1, 510, 800, 20, 3)
+			Platform(-20, 510, 840, 20, 3)
 		}
 	}
 	player = Player(1, 500)
@@ -63,7 +63,7 @@ function love.update(dt)
 	for ia, v in ipairs (tilemap2d) do
 		for i, v in ipairs (tilemap2d[ia]) do
 	    	if tilemap2d[ia][i]:update(dt) then
-	    		if tilemap2d[ia][i].isEnemy and tilemap2d[ia][i].isBullet==false then
+	    		if tilemap2d[ia][i].isEnemy and false==tilemap2d[ia][i].isBullet then
 	    			killCount = killCount + 1
 	    		end
 	    		worlds[ia]:remove(tilemap2d[ia][i])
@@ -75,13 +75,13 @@ end
 
 function love.draw()
 	love.graphics.setColor(255, 0, 0)
-	love.graphics.print('Kills:' .. killCount, 400, 310)
+	love.graphics.print('Points:' .. killCount, 700, 10)
 
     if player~=nil then
     	player:draw()
     else
     	love.graphics.setColor(255, 0, 0)
-    	love.graphics.print('Game Over', 400, 300)
+    	love.graphics.print('Game Over', 700, 0)
     end
 
     for i, v in ipairs (tilemap2d[lasttx]) do

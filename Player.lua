@@ -94,6 +94,6 @@ end
 
 function Player:draw()
 	love.graphics.setColor(255, 255, 255)
-	love.graphics.print('Hit Points' .. self.hp, 400, 300)
+	love.graphics.print('Hit Points' .. self.hp, 700, 0)
 	love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
 end
