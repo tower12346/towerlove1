@@ -1,6 +1,6 @@
 Player = Object:extend()
 
-function Player:new(x1, y1)
+function Player:new(x1, y1, tx1)
 	self.x = x1
 	self.y = y1
 	self.yv = 0
@@ -8,7 +8,8 @@ function Player:new(x1, y1)
 	self.w = 10
 	self.h = 10
 	self.hp = 100
-	self.tx = 1
+	self.tx = tx1
+	self.xv = 100
 	self.powers = {
 		["canShootLeft"] = true,
 		["canShootRight"] = true,
@@ -21,12 +22,12 @@ function Player:new(x1, y1)
 end
 
 function Player:update(dt)
-	local goalX = self.x 
+	local goalX = self.x
 	local goalY = self.y
 	if love.keyboard.isDown("right") then
-		goalX = self.x + 100 * dt
+		goalX = self.x + self.xv * dt
 	elseif love.keyboard.isDown("left") then
-		goalX = self.x - 100 * dt
+		goalX = self.x - self.xv * dt
 	end
 	if love.keyboard.isDown("up") then
 		self.yv = 2
@@ -35,7 +36,7 @@ function Player:update(dt)
 
 	local actualX, actualY, cols, len = worlds[self.tx]:move(self, goalX, goalY)
 	self.yt = self.yt + 1
-	for i,v in ipairs (cols) do	
+	for i,v in ipairs (cols) do
 		if cols[i].other.isFloor and cols[i].normal.y == -1 then
 	    	self.yt = 0
 			self.yv = 0
@@ -78,6 +79,11 @@ function Player:update(dt)
 			table.insert(tilemap2d[self.tx], Bullet(self.x+self.w/2, self.y + self.h, 0, 2))
 		end
 	end
+	if love.keyboard.isDown('space') then
+		self.xv = 200
+	else
+		self.xv = 100
+	end
 
 	if self.hp <= 0 then
 		return true
@@ -95,5 +101,6 @@ end
 function Player:draw()
 	love.graphics.setColor(255, 255, 255)
 	love.graphics.print('Hit Points' .. self.hp, 700, 0)
+	love.graphics.setColor(255, 255, 0)
 	love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
 end

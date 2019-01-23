@@ -9,7 +9,7 @@ function EnemyBullet:new(x1, y1, xv1, yv1, tx1)
 	self.w = 10
 	self.h = 10
 	self.isFloor = true
-	self.isEnemy = true
+	self.isEnemy = false
 	self.tx = tx1
 	self.delete = false
 	worlds[self.tx]:add(self, self.x,self.y, self.w, self.h)
@@ -21,11 +21,11 @@ function EnemyBullet:update(dt)
 	self.t = self.t - dt
 
 	self.filter = function(item, other)
-		if other.isBullet then 
+		if other.isBullet then
   			return 'touch'
-  		else 
+  		else
   			return 'slide'
-		end	
+		end
 	end
 
 	local actualX, actualY, cols, len = worlds[self.tx]:move(self, goalX, goalY, self.filter)

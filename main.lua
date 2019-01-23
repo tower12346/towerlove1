@@ -8,16 +8,19 @@ function love.load()
 	require "Boss"
 	require "EnemyBullet"
 	require "Collectible"
+	require "Spawner"
 
 	worlds = {
+		bump.newWorld(),
+		bump.newWorld(),
 		bump.newWorld(),
 		bump.newWorld(),
 		bump.newWorld()
 	}
 	tilemap2d = {
 		{
-			Platform(50,450,30,30, 1), 
-			Platform(100,400,30,30, 1), 
+			Platform(50,450,30,30, 1),
+			Platform(100,400,30,30, 1),
 			Platform(150,350,30,30, 1),
 			Collectible(150, 340, {["canShootUp"] = true}, 1),
 			Platform(200, 300, 30, 30, 1),
@@ -27,19 +30,38 @@ function love.load()
 			Platform(-20, 510, 840, 20, 1)
 		},
 		{
-			Platform(50,450,30,30, 2), 
-			Platform(400,410,40,40, 2), 
-			Platform(120,400,50,50, 2), 
+			Platform(50,450,30,30, 2),
+			Platform(400,410,40,40, 2),
+			Platform(120,400,50,50, 2),
 			Platform(-20, 510, 840, 20, 2)
 		},
 		{
-			Boss(400, 400, 3),
-			Platform(-20, 510, 840, 20, 3)
+			Platform(0, 400, 500, 30, 3),
+			Platform(100, 300, 500, 30, 3),
+			Platform(0, 200, 500, 30, 3),
+			Platform(400, 130, 30, 30, 3),
+			Platform(600, 100, 30, 30, 3),
+			Platform(0, 0, 10, 400, 3),
+			Platform(-20, 510, 840, 20, 3),
+			Collectible(610, 90, {["canShootUp"] = true}, 3),
+			Spawner(200, 500, 100, 0, 3),
+			Spawner(200, 400, 100, 0, 3),
+			Spawner(200, 300, 100, 0, 3),
+			Spawner(200, 200, 100, 0, 3)
+		},
+		{
+			Platform(200, 100, 30, 700, 4),
+			Platform(170, 100, 30, 30, 4),
+			Platform(-20, 510, 840, 20, 4)
+		},
+		{
+			Boss(400, 400, 5),
+			Platform(-20, 510, 840, 20, 5)
 		}
 	}
-	player = Player(1, 500)
+	lasttx = 3
+	player = Player(1, 500, lasttx)
 	killCount = 0
-	lasttx = 1
 end
 
 function love.update(dt)
@@ -52,22 +74,18 @@ function love.update(dt)
 		lasttx = player.tx
 	end
 
-	if player ~= nil and math.random() > 0.99 then
-    	table.insert(tilemap2d[lasttx], Enemy(math.random(100, 300), 500))
-    end
-
 	if player~=nil and player:update(dt) then
 		player = nil
 	end
-	
+
 	for ia, v in ipairs (tilemap2d) do
 		for i, v in ipairs (tilemap2d[ia]) do
 	    	if tilemap2d[ia][i]:update(dt) then
-	    		if tilemap2d[ia][i].isEnemy and false==tilemap2d[ia][i].isBullet then
+	    		if tilemap2d[ia][i].isEnemy then
 	    			killCount = killCount + 1
 	    		end
 	    		worlds[ia]:remove(tilemap2d[ia][i])
-				table.remove(tilemap2d[ia], i)
+					table.remove(tilemap2d[ia], i)
 			end
 	    end
 	end
