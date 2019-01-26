@@ -17,6 +17,8 @@ function love.load()
 		bump.newWorld(),
 		bump.newWorld()
 	}
+
+	enemhp = 30
 	tilemap2d = {
 		{
 			Platform(50,450,30,30, 1),
@@ -44,10 +46,10 @@ function love.load()
 			Platform(0, 0, 10, 400, 3),
 			Platform(-20, 510, 840, 20, 3),
 			Collectible(610, 90, {["canShootUp"] = true}, 3),
-			Spawner(200, 500, 100, 0, 3),
-			Spawner(200, 400, 100, 0, 3),
-			Spawner(200, 300, 100, 0, 3),
-			Spawner(200, 200, 100, 0, 3)
+			Spawner(200, 500, 100, 0, enemhp, 3),
+			Spawner(200, 400, 100, 0, enemhp, 3),
+			Spawner(200, 300, 100, 0, enemhp, 3),
+			Spawner(200, 200, 100, 0, enemhp, 3)
 		},
 		{
 			Platform(200, 100, 30, 700, 4),
@@ -59,7 +61,7 @@ function love.load()
 			Platform(-20, 510, 840, 20, 5)
 		}
 	}
-	lasttx = 3
+	lasttx = 5
 	player = Player(1, 500, lasttx)
 	killCount = 0
 end
@@ -80,29 +82,29 @@ function love.update(dt)
 
 	for ia, v in ipairs (tilemap2d) do
 		for i, v in ipairs (tilemap2d[ia]) do
-	    	if tilemap2d[ia][i]:update(dt) then
-	    		if tilemap2d[ia][i].isEnemy then
-	    			killCount = killCount + 1
-	    		end
-	    		worlds[ia]:remove(tilemap2d[ia][i])
-					table.remove(tilemap2d[ia], i)
+    	if tilemap2d[ia][i]:update(dt) then
+    		if tilemap2d[ia][i].isEnemy then
+    			killCount = killCount + 1
+    		end
+    		worlds[ia]:remove(tilemap2d[ia][i])
+				table.remove(tilemap2d[ia], i)
 			end
-	    end
+    end
 	end
 end
 
 function love.draw()
-	love.graphics.setColor(255, 0, 0)
+	love.graphics.setColor(1, 0, 0)
 	love.graphics.print('Points:' .. killCount, 700, 10)
 
-    if player~=nil then
-    	player:draw()
-    else
-    	love.graphics.setColor(255, 0, 0)
-    	love.graphics.print('Game Over', 700, 0)
-    end
+  if player~=nil then
+  	player:draw()
+  else
+  	love.graphics.setColor(1, 0, 0)
+  	love.graphics.print('Game Over', 700, 0)
+  end
 
-    for i, v in ipairs (tilemap2d[lasttx]) do
-    	tilemap2d[lasttx][i]:draw()
-    end
+  for i, v in ipairs (tilemap2d[lasttx]) do
+  	tilemap2d[lasttx][i]:draw()
+  end
 end

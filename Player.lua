@@ -41,9 +41,6 @@ function Player:update(dt)
 	    	self.yt = 0
 			self.yv = 0
 		end
-		if cols[i].other.isEnemy then
-	    	self.hp = self.hp - 1
-		end
 		if cols[i].other.isCollectible then
 			self.powers = cols[i].other:bestow(self.powers)
 		end
@@ -79,6 +76,7 @@ function Player:update(dt)
 			table.insert(tilemap2d[self.tx], Bullet(self.x+self.w/2, self.y + self.h, 0, 2))
 		end
 	end
+
 	if love.keyboard.isDown('space') then
 		self.xv = 200
 	else
@@ -99,8 +97,8 @@ function Player:ouch(wound)
 end
 
 function Player:draw()
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(1, 1, 1)
 	love.graphics.print('Hit Points' .. self.hp, 700, 0)
-	love.graphics.setColor(255, 255, 0)
+	love.graphics.setColor(1, 1, 0)
 	love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
 end

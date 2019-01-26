@@ -1,8 +1,10 @@
 Enemy = Object:extend()
 
-function Enemy:new(x1, y1)
+function Enemy:new(x1, y1, hp1)
 	self.x = x1
 	self.y = y1
+	self.hp = hp1
+	self.hpmax = hp1
 	self.yv = 0
 	self.yt = 0
 	self.w = 10
@@ -14,7 +16,7 @@ function Enemy:new(x1, y1)
 end
 
 function Enemy:update(dt)
-	local goalX = self.x 
+	local goalX = self.x
 	local goalY = self.y
 	if math.random() > 0.5 then
 		goalX = goalX + 100 * dt
@@ -36,22 +38,30 @@ function Enemy:update(dt)
 	end
 	local actualX, actualY, cols, len = worlds[self.tx]:move(self, goalX, goalY, playerFilter)
 	self.yt = self.yt + 1
-	for i,v in ipairs (cols) do	
+	for i,v in ipairs (cols) do
 		if cols[i].other.isFloor and cols[i].normal.y == -1 then
 	    	self.yt = 0
 			self.yv = 0
 		end
 		if cols[i].other.isBullet then
-			--cols[i].other.delete = true
-	    	return true
+			cols[i].other.delete = true
+	    self.hp = self.hp - 1
+		end
+		if cols[i].other.isPlayer then
+			cols[i].other:ouch(1)
 		end
 	end
 
 	self.x, self.y = actualX, actualY
+
+	if self.hp <= 0 then
+		return true
+	end
+
 	return self.delete
 end
 
 function Enemy:draw()
-	love.graphics.setColor(0, 255, 0)
+	love.graphics.setColor((1-self.hp/self.hpmax), self.hp/self.hpmax, 0)
 	love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
 end
