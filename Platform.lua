@@ -15,6 +15,6 @@ function Platform:update(dt)
 end
 
 function Platform:draw()
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(1, 1, 1)
 	love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
 end

@@ -26,6 +26,6 @@ function Collectible:bestow(powers)
 end
 
 function Collectible:draw()
-	love.graphics.setColor(0, 0, 255)
+	love.graphics.setColor(0, 0, 1)
 	love.graphics.circle("fill", self.x+self.radius/2, self.y+self.radius/2, self.radius)
 end

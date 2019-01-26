@@ -21,17 +21,17 @@ function Bullet:update(dt)
 	self.t = self.t - dt
 
 	self.filter = function(item, other)
-		if other.isBullet then 
+		if other.isBullet then
   			return 'touch'
   		elseif other.isEnemy then
   			return 'cross'
   		else
   			return 'slide'
-		end	
+		end
 	end
 
 	local actualX, actualY, cols, len = worlds[self.tx]:move(self, goalX, goalY, self.filter)
-	
+
 	self.x, self.y = actualX, actualY
 	if (self.t<0) then
 		return true
@@ -40,6 +40,6 @@ function Bullet:update(dt)
 end
 
 function Bullet:draw()
-	love.graphics.setColor(255, 0, 0)
+	love.graphics.setColor(1, 0, 0)
 	love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
 end
