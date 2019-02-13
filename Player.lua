@@ -5,17 +5,21 @@ function Player:new(x1, y1, tx1)
 	self.y = y1
 	self.yv = 0
 	self.yt = 0
-	self.w = 10
-	self.h = 10
+	self.w = 20
+	self.h = 20
 	self.hp = 100
 	self.tx = tx1
 	self.xv = 100
+	self.sprite = love.graphics.newImage("Butterfly.png")
 	self.powers = {
 		["canShootLeft"] = true,
 		["canShootRight"] = true,
 		["canShootUp"] = false,
-		["canShootDown"] = false
+		["canShootDown"] = false,
+		["superjump"] = false,
+		["rocket"] = true
 	}
+
 	--self.ty = 0
 	self.isPlayer = true
 	worlds[self.tx]:add(self, self.x,self.y, self.w, self.h)
@@ -24,13 +28,18 @@ end
 function Player:update(dt)
 	local goalX = self.x
 	local goalY = self.y
+
 	if love.keyboard.isDown("right") then
 		goalX = self.x + self.xv * dt
 	elseif love.keyboard.isDown("left") then
 		goalX = self.x - self.xv * dt
 	end
 	if love.keyboard.isDown("up") then
-		self.yv = 2
+		if self.powers.superjump then
+			self.yv = 2.5
+		else
+			self.yv = 2
+		end
 	end
 	goalY = self.y - self.yv*self.yt + 0.1*self.yt^2
 
@@ -101,4 +110,5 @@ function Player:draw()
 	love.graphics.print('Hit Points' .. self.hp, 700, 0)
 	love.graphics.setColor(1, 1, 0)
 	love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
+	love.graphics.draw(self.sprite, self.x, self.y, 0, self.w/self.sprite:getWidth(), self.h/self.sprite:getHeight())
 end

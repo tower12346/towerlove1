@@ -18,14 +18,21 @@ end
 function Enemy:update(dt)
 	local goalX = self.x
 	local goalY = self.y
+	local speed = 100
 	if math.random() > 0.5 then
-		goalX = goalX + 100 * dt
+		goalX = goalX + speed * dt
 	end
 	if math.random() > 0.5 then
-		goalX = goalX - 100 * dt
+		goalX = goalX - speed * dt
 	end
 
-	if math.random() > 0.99 then
+	if player and player.x<goalX then
+		goalX = goalX - speed/2 * dt
+	else
+		goalX = goalX + speed/2 * dt
+	end
+
+	if math.random() > 0.99 or player and player.y <= goalY-50 then
 		self.yv = 2
 	end
 	goalY = self.y - self.yv*self.yt + 0.1*self.yt^2

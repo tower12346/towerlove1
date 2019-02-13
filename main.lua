@@ -35,7 +35,8 @@ function love.load()
 			Platform(50,450,30,30, 2),
 			Platform(400,410,40,40, 2),
 			Platform(120,400,50,50, 2),
-			Platform(-20, 510, 840, 20, 2)
+			Platform(-20, 510, 840, 20, 2),
+			Collectible(610, 500, {["superjump"] = true}, 2)
 		},
 		{
 			Platform(0, 400, 500, 30, 3),
@@ -53,15 +54,17 @@ function love.load()
 		},
 		{
 			Platform(200, 100, 30, 700, 4),
-			Platform(170, 100, 30, 30, 4),
-			Platform(-20, 510, 840, 20, 4)
+			Platform(170,140, 30, 30, 4),
+			Collectible(200, 70, {["canShootDown"] = true}, 4),
+			Platform(-20, 510, 840, 20, 4),
+			Spawner(300, 500, 100, 0, enemhp, 4)
 		},
 		{
 			Boss(400, 400, 5),
 			Platform(-20, 510, 840, 20, 5)
 		}
 	}
-	lasttx = 5
+	lasttx = 3
 	player = Player(1, 500, lasttx)
 	killCount = 0
 end
