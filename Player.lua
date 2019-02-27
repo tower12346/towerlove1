@@ -105,6 +105,12 @@ function Player:ouch(wound)
 	end
 end
 
+function Player:debug()
+	for i, v in pairs (self.powers) do
+		self.powers[i] = true
+	end
+end
+
 function Player:draw()
 	love.graphics.setColor(1, 1, 1)
 	love.graphics.print('Hit Points' .. self.hp, 700, 0)

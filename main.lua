@@ -9,6 +9,7 @@ function love.load()
 	require "EnemyBullet"
 	require "Collectible"
 	require "Spawner"
+	require "MovingPlatform"
 
 	worlds = {
 		bump.newWorld(),
@@ -57,7 +58,11 @@ function love.load()
 			Platform(170,140, 30, 30, 4),
 			Collectible(200, 70, {["canShootDown"] = true}, 4),
 			Platform(-20, 510, 840, 20, 4),
-			Spawner(300, 500, 100, 0, enemhp, 4)
+			MovingPlatform(300, 200, 100, 30, 4, 290, 310, 50, 480, 50),
+			MovingPlatform(500, 300, 100, 30, 4, 490, 510, 50, 480, -50),
+			MovingPlatform(700, 100, 100, 30, 4, 690, 710, 50, 480, 50),
+			Spawner(300, 0, 500, 0, enemhp, 4, 0.9),
+			Spawner(300, 500, 300, 0, enemhp, 4)
 		},
 		{
 			Boss(400, 400, 5),
@@ -66,6 +71,7 @@ function love.load()
 	}
 	lasttx = 3
 	player = Player(1, 500, lasttx)
+	--player:debug()
 	killCount = 0
 end
 
@@ -100,7 +106,7 @@ function love.draw()
 	love.graphics.setColor(1, 0, 0)
 	love.graphics.print('Points:' .. killCount, 700, 10)
 
-  if player~=nil then
+  if player then
   	player:draw()
   else
   	love.graphics.setColor(1, 0, 0)

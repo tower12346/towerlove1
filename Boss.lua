@@ -25,6 +25,7 @@ function Boss:update(dt)
 	end
 
 	if self.hp <= 0 then
+		killCount = killCount + 4999
 		return true
 	end
 

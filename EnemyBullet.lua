@@ -36,7 +36,7 @@ function EnemyBullet:update(dt)
 		end
 		if cols[i].other.isBullet then
 			cols[i].other.delete = true
-			return true
+			--return true
 		end
 	end
 	self.x, self.y = actualX, actualY
