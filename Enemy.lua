@@ -54,6 +54,9 @@ function Enemy:update(dt)
 			cols[i].other.delete = true
 	    self.hp = self.hp - 1
 		end
+		if cols[i].other.isYoyo then
+			self.hp = self.hp - 30
+		end
 		if cols[i].other.isPlayer then
 			cols[i].other:ouch(1)
 		end

@@ -10,6 +10,7 @@ function love.load()
 	require "Collectible"
 	require "Spawner"
 	require "MovingPlatform"
+	require "Yoyo"
 
 	worlds = {
 		bump.newWorld(),

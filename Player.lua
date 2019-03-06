@@ -19,7 +19,7 @@ function Player:new(x1, y1, tx1)
 		["superjump"] = false,
 		["rocket"] = true
 	}
-
+	self.powersset = 1
 	--self.ty = 0
 	self.isPlayer = true
 	worlds[self.tx]:add(self, self.x,self.y, self.w, self.h)
@@ -69,20 +69,43 @@ function Player:update(dt)
 		worlds[self.tx]:add(self, self.x,self.y, self.w, self.h)
 	end
 
-	if love.keyboard.isDown("a") and self.powers.canShootLeft then
-		table.insert(tilemap2d[self.tx], Bullet(self.x-3, self.y+(self.h/2), -2, 0))
+	if love.keyboard.isDown("1") then
+		self.powersset = 1
+	elseif love.keyboard.isDown("2") then
+		self.powersset = 2
 	end
-	if love.keyboard.isDown('d') and self.powers.canShootRight then
-		table.insert(tilemap2d[self.tx], Bullet(self.x+self.w, self.y+(self.h/2), 2, 0))
+
+	if (self.powersset == 1) then
+		if love.keyboard.isDown("a") and self.powers.canShootLeft then
+			table.insert(tilemap2d[self.tx], Bullet(self.x-3, self.y+(self.h/2), -2, 0))
+		end
+		if love.keyboard.isDown('d') and self.powers.canShootRight then
+			table.insert(tilemap2d[self.tx], Bullet(self.x+self.w, self.y+(self.h/2), 2, 0))
+		end
+		if love.keyboard.isDown('w') and self.powers.canShootUp then
+			table.insert(tilemap2d[self.tx], Bullet(self.x+self.w/2, self.y - self.h, 0, -2))
+		end
+		if love.keyboard.isDown('s') and self.powers.canShootDown then
+			if love.keyboard.isDown('v') then
+				table.insert(tilemap2d[self.tx], Bullet(self.x+self.w/2, self.y + self.h, 0, -2))
+			else
+				table.insert(tilemap2d[self.tx], Bullet(self.x+self.w/2, self.y + self.h, 0, 2))
+			end
+		end
 	end
-	if love.keyboard.isDown('w') and self.powers.canShootUp then
-		table.insert(tilemap2d[self.tx], Bullet(self.x+self.w/2, self.y - self.h, 0, -2))
-	end
-	if love.keyboard.isDown('s') and self.powers.canShootDown then
-		if love.keyboard.isDown('v') then
-			table.insert(tilemap2d[self.tx], Bullet(self.x+self.w/2, self.y + self.h, 0, -2))
-		else
-			table.insert(tilemap2d[self.tx], Bullet(self.x+self.w/2, self.y + self.h, 0, 2))
+
+	if (self.powersset == 2) then
+		if love.keyboard.isDown("a") and self.powers.canShootLeft then
+			table.insert(tilemap2d[self.tx], Yoyo(self.x-3, self.y+(self.h/2), 0, -1))
+		end
+		if love.keyboard.isDown('d') and self.powers.canShootRight then
+			table.insert(tilemap2d[self.tx], Yoyo(self.x+self.w, self.y+(self.h/2), 0, -1))
+		end
+		if love.keyboard.isDown('w') and self.powers.canShootUp then
+			table.insert(tilemap2d[self.tx], Yoyo(self.x+self.w/2, self.y - self.h, -1, 0))
+		end
+		if love.keyboard.isDown('s') and self.powers.canShootDown then
+			table.insert(tilemap2d[self.tx], Yoyo(self.x+self.w/2, self.y + self.h, 1, 0))
 		end
 	end
 
@@ -114,6 +137,7 @@ end
 function Player:draw()
 	love.graphics.setColor(1, 1, 1)
 	love.graphics.print('Hit Points' .. self.hp, 700, 0)
+	love.graphics.print('Equipped:' .. self.powersset, 700, 50)
 	love.graphics.setColor(1, 1, 0)
 	love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
 	love.graphics.draw(self.sprite, self.x, self.y, 0, self.w/self.sprite:getWidth(), self.h/self.sprite:getHeight())
