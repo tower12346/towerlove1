@@ -72,7 +72,7 @@ function love.load()
 	}
 	lasttx = 3
 	player = Player(1, 500, lasttx)
-	--player:debug()
+	player:debug()
 	killCount = 0
 end
 

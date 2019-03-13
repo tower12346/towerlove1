@@ -73,6 +73,8 @@ function Player:update(dt)
 		self.powersset = 1
 	elseif love.keyboard.isDown("2") then
 		self.powersset = 2
+	elseif love.keyboard.isDown("3") then
+		self.powersset = 3
 	end
 
 	if (self.powersset == 1) then
@@ -96,16 +98,31 @@ function Player:update(dt)
 
 	if (self.powersset == 2) then
 		if love.keyboard.isDown("a") and self.powers.canShootLeft then
-			table.insert(tilemap2d[self.tx], Yoyo(self.x-3, self.y+(self.h/2), 0, -1))
+			table.insert(tilemap2d[self.tx], Yoyo(self.x-10, self.y, 0, -1))
 		end
 		if love.keyboard.isDown('d') and self.powers.canShootRight then
-			table.insert(tilemap2d[self.tx], Yoyo(self.x+self.w, self.y+(self.h/2), 0, -1))
+			table.insert(tilemap2d[self.tx], Yoyo(self.x+self.w+10, self.y+self.h, 0, 1))
 		end
 		if love.keyboard.isDown('w') and self.powers.canShootUp then
-			table.insert(tilemap2d[self.tx], Yoyo(self.x+self.w/2, self.y - self.h, -1, 0))
+			table.insert(tilemap2d[self.tx], Yoyo(self.x, self.y - self.h, -1, 0))
 		end
 		if love.keyboard.isDown('s') and self.powers.canShootDown then
-			table.insert(tilemap2d[self.tx], Yoyo(self.x+self.w/2, self.y + self.h, 1, 0))
+			table.insert(tilemap2d[self.tx], Yoyo(self.x+self.w, self.y, 1, 0))
+		end
+	end
+
+	if (self.powersset == 3) then
+		if love.keyboard.isDown("a") and self.powers.canShootLeft then
+			table.insert(tilemap2d[self.tx], Yoyo(self.x, self.y, 0, -1))
+		end
+		if love.keyboard.isDown('d') and self.powers.canShootRight then
+			table.insert(tilemap2d[self.tx], Yoyo(self.x+self.w-1, self.y+self.h, 0, 1))
+		end
+		if love.keyboard.isDown('w') and self.powers.canShootUp then
+			table.insert(tilemap2d[self.tx], Yoyo(self.x, self.y - self.h, -1, 0))
+		end
+		if love.keyboard.isDown('s') and self.powers.canShootDown then
+			table.insert(tilemap2d[self.tx], Yoyo(self.x+self.w, self.y, 1, 0))
 		end
 	end
 

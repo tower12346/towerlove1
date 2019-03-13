@@ -1,10 +1,12 @@
 Yoyo = Object:extend()
 
 function Yoyo:new(x1, y1, xu, yu)
-	self.xc = x1
-	self.yc = y1
-	self.x = self.xc + 10*xu
-	self.y = self.yc + 10*yu
+	self.x = x1
+	self.y = y1
+	self.xu = xu
+	self.yu = yu
+	--self.x = self.xc + 10*xu
+	--self.y = self.yc + 10*yu
 	self.t = 0.5
 	self.r = 3
 	self.isFloor = true
@@ -15,8 +17,8 @@ function Yoyo:new(x1, y1, xu, yu)
 end
 
 function Yoyo:update(dt)
-	goalX = self.x + math.pi*math.cos(math.pi*self.t) * dt
-	goalY = self.y + math.pi*math.sin(math.pi*self.t) * dt
+	goalX = self.x + -30*self.xu*math.pi*math.cos(math.pi*self.t) * dt
+	goalY = self.y + -30*self.yu*math.pi*math.sin(math.pi*self.t) * dt
 	self.t = self.t - dt
 
 	self.filter = function(item, other)
