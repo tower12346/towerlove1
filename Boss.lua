@@ -1,6 +1,6 @@
 Boss = Enemy:extend()
 
-function Boss:new(x1, y1, tx1)
+function Boss:new(x1, y1, hp, tx1)
 	self.x = x1
 	self.y = y1
 	self.x1 = x1
@@ -10,7 +10,7 @@ function Boss:new(x1, y1, tx1)
 	self.w = 100
 	self.h = 100
 	self.tx = tx1
-	self.hp = 1000
+	self.hp = hp
 	self.hpmax = 1000
 	self.isEnemy = true
 	worlds[self.tx]:add(self, self.x,self.y, self.w, self.h)

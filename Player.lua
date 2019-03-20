@@ -17,7 +17,9 @@ function Player:new(x1, y1, tx1)
 		["canShootUp"] = false,
 		["canShootDown"] = false,
 		["superjump"] = false,
-		["rocket"] = true
+		["slash"] = false,
+		["rocket"] = false,
+		["recover"] = true
 	}
 	self.powersset = 1
 	--self.ty = 0
@@ -69,11 +71,15 @@ function Player:update(dt)
 		worlds[self.tx]:add(self, self.x,self.y, self.w, self.h)
 	end
 
+	if self.y>600 then
+		self.hp = self.hp - 5
+	end
+
 	if love.keyboard.isDown("1") then
 		self.powersset = 1
-	elseif love.keyboard.isDown("2") then
+	elseif love.keyboard.isDown("2") and self.powers.slash then
 		self.powersset = 2
-	elseif love.keyboard.isDown("3") then
+	elseif love.keyboard.isDown("3") and self.powers.rocket then
 		self.powersset = 3
 	end
 
@@ -130,6 +136,10 @@ function Player:update(dt)
 		self.xv = 200
 	else
 		self.xv = 100
+	end
+
+	if love.keyboard.isDown("f") and self.powers.recover and self.hp < 100 then
+		self.hp = self.hp + dt
 	end
 
 	if self.hp <= 0 then

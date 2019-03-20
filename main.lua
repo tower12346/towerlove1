@@ -11,8 +11,12 @@ function love.load()
 	require "Spawner"
 	require "MovingPlatform"
 	require "Yoyo"
+	require "Deathball"
 
 	worlds = {
+		bump.newWorld(),
+		bump.newWorld(),
+		bump.newWorld(),
 		bump.newWorld(),
 		bump.newWorld(),
 		bump.newWorld(),
@@ -66,11 +70,26 @@ function love.load()
 			Spawner(300, 500, 300, 0, enemhp, 4)
 		},
 		{
-			Boss(400, 400, 5),
+			Collectible(250, 500, {["slash"] = true}, 5),
+			Boss(400, 400, 1000, 5),
 			Platform(-20, 510, 840, 20, 5)
+		},
+		{
+			Platform(-20, 510, 300, 20, 6),
+			Collectible(250, 500, {["rocket"] = true}, 6),
+			Deathball(450, 600, 0, 10, 6)
+		},
+		{
+			Platform(500, 510, 200, 20, 7)
+		},
+		{
+			Deathball(400, 600, 10, 10, 8),
+			Deathball(400, 600, -10, 10, 8),
+			Boss(400, 400, 10000, 8),
+			Platform(200, 510, 500, 20, 8)
 		}
 	}
-	lasttx = 3
+	lasttx = 6
 	player = Player(1, 500, lasttx)
 	player:debug()
 	killCount = 0
